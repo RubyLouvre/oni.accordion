@@ -1,0 +1,23 @@
+{
+  "name": "oni.accordion",
+  "version": "1.0.0",
+  "description": "accordion",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "avalon2": "^2.0.0",
+    "oni.compass": "^1.0.0"
+  },
+  "author": "rubylouvre",
+  "license": "MIT",
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "node-sass": "^3.7.0",
+    "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.1",
+    "text-loader": "0.0.1",
+    "webpack": "^1.13.1"
+  }
+}

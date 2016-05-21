@@ -1,0 +1,39 @@
+<div class="oni-accordion-inner" 
+     ms-class="[!@isVertical && 'oni-accordion-horizontal']">
+    <!--ms-for:($index,item) in @data-->
+    <div class="oni-accordion-header oni-widget-header oni-state-default oni-accordion-trigger"
+         ms-class="[$index === @currentIndex && (@currentTriggerClass + (@isVertical ? ' oni-corner-top' : '')), @isVertical && 'oni-corner-all' ]"
+         MS_OPTION_HORIZONTAL_HEADER_WIDTH_HEIGHT
+         MS_OPTION_EVENT
+         ms-hover="'oni-state-hover'">
+        <h2 ms-if="!@isVertical" MS_OPTION_HORIZONTAL_TITLE>
+            {{item.title}} {{$index}} {{@currentIndex}}
+        </h2>
+        <span ms-if="@isVertical">{{item.title}}</span>
+    </div>
+    <div class="oni-accordion-content oni-widget-content oni-state-default" 
+         ms-visible="$index === @currentIndex"
+         ms-class="[@isVertical && 'oni-corner-bottom']"
+         MS_OPTION_HORIZONTAL_CONTENT_WIDTH_HEIGHT>
+        <div MS_OPTION_HORIZONTAL_CONTENT_WIDTH_HEIGHT ms-html="item.content">
+        </div>
+    </div>
+    <!--ms-for-end:-->
+</div>
+MS_OPTION_MODE_CARET
+<div class="oni-accordion-inner" >
+    <!--ms-for:($index,item) in @data-->
+    <div class="oni-accordion-header oni-widget-header oni-state-default oni-corner-all"
+         ms-class="[$index === @currentIndex && (@currentTriggerClass + ' oni-corner-top')]"
+         ms-hover="oni-state-hover">
+        <span class="oni-accordion-icon-wrap oni-accordion-trigger" MS_OPTION_EVENT>
+            <i class="oni-icon oni-icon-caret-right">&#xf040;</i>
+            <i class="oni-icon oni-icon-caret-down">&#xf033;</i>
+        </span> 
+        {{item.title}}
+    </div>
+    <div class="oni-accordion-content oni-state-default oni-widget-content oni-corner-bottom" 
+         ms-visible="$index === @currentIndex" ms-html="item.content">
+    </div>
+    <!--ms-for-end:-->
+</div>
