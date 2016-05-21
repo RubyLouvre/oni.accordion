@@ -1,6 +1,6 @@
 var avalon = require('avalon2')
 var template = require('text!./template.html')
- require('style!css!./node_modules/oni.compass/oniui-common.css')
+ require('style!css!oni.compass/oniui-common.css')
 
  require('style!css!sass!./oni.accordion.scss')
 

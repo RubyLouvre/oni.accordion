@@ -36,6 +36,9 @@ module.exports = {
     resolve: {
         extensions: ['.js', '', '.css'],
         alias: {
+            
+         
+  
           //  avalon: './src/avalon',
           //  'vars': path.join(process.cwd(), './src/base/builtin')
         }
