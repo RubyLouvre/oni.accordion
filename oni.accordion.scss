@@ -62,17 +62,17 @@ $corner-radius: 4px;
             border: 0 none;
         }
     }
-    &.#{$uiname}-trigger {
-        cursor:pointer;
-    }
+   
     .#{$uiname}-header {
         display: block;
         min-height: 0;
         position: relative;
         margin: 2px 0 0 0;
         padding: 7px 10px;
-        cursor: pointer;
         font-size: 100%;
+        &.#{$uiname}-trigger {
+            cursor:pointer;
+        }
         &.oni-state-default {
             border: 1px solid #d3d3d3;
             background-color: #e6e6e6;

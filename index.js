@@ -63,9 +63,6 @@ avalon.component('ms-accordion', {
         isOpen: function (index) {
             var ret = this.multiple ? this.$currentIndexs[index] :
                     this.currentIndex === index
-            if (this.multiple) {
-                console.log(index, ret)
-            }
             return ret
         },
         mode: "caret", //@config 组件展开模式，取值说明："nav"=面板header无小三角图标，"caret"=展开面板有小三角图标，可以定义是点击图标展开面板还是点击header即展开，默认是点击header即展开，当然也可以通过getTemplate自定义模板
