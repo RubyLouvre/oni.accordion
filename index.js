@@ -61,8 +61,11 @@ avalon.component('ms-accordion', {
         currentIndex: -1, //@interface 组件最新展开的面板序号，不可配置
         $currentIndexs: {},
         isOpen: function (index) {
-            var ret = this.multiple ? this.$currentIndexs[index]:
+            var ret = this.multiple ? this.$currentIndexs[index] :
                     this.currentIndex === index
+            if (this.multiple) {
+                console.log(index, ret)
+            }
             return ret
         },
         mode: "caret", //@config 组件展开模式，取值说明："nav"=面板header无小三角图标，"caret"=展开面板有小三角图标，可以定义是点击图标展开面板还是点击header即展开，默认是点击header即展开，当然也可以通过getTemplate自定义模板
@@ -91,8 +94,8 @@ avalon.component('ms-accordion', {
          * @param vmodels {Array} 组件的祖先vmodel组成的数组链
          */
         onInit: function (e) {
-           var vm = e.vmodel
-           vm.$currentIndexs = {}//防止所有多选弹出层共用一个数据
+            var vm = e.vmodel
+            vm.$currentIndexs = {}//防止所有多选弹出层共用一个数据
         }, //@config
         triggerCallback: function (event, index) {
             event.preIndex = this.currentIndex
@@ -103,14 +106,15 @@ avalon.component('ms-accordion', {
             }
             if (this.multiple) {
                 this.$currentIndexs[index] = !this.$currentIndexs[index]
-            } else {
-                if(this.currentIndex === index){
-                    this.currentIndex = -1
-                }else{
-                    this.currentIndex = index
-                }
-               
             }
+            //通过currentIndex来刷新视图
+            if (this.currentIndex === index) {
+                this.currentIndex = -1
+            } else {
+                this.currentIndex = index
+            }
+
+
             this.onSwitch.call(this, event)
         }
 
