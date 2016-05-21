@@ -11,11 +11,13 @@
             <p>{{@name}}</p>
             <ms-accordion ms-widget='{data: @data}'></ms-accordion>
             <ms-accordion ms-widget="{data: @data, mode: 'nav'}"></ms-accordion>
+           
             <ms-accordion ms-widget="{data: @data, multiple: true}"></ms-accordion>
-            <div>
-             <ms-accordion ms-widget="{data: @data, isVertical: false}"></ms-accordion>
-            </div>
+            <ms-accordion ms-widget="{data: @data, isVertical: false}"></ms-accordion>
+       
             <button type="button" ms-click="@updateData">修改数据</button>
         </div>
+        
+         
     </body>
 </html>
