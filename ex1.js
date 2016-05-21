@@ -1,4 +1,5 @@
-var avalon = require('./index')
+var avalon = require('avalon2')
+var accordion = require('./index')
 
 var vm = avalon.define({
     $id: 'test',

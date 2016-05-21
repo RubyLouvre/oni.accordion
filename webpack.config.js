@@ -27,20 +27,5 @@ module.exports = {
     }, //页面引用的文件
     plugins: [
       new webpack.BannerPlugin('built in '+snow+' version '+ v+' by 司徒正美')
-    ],
-    module: {
-        
-     
-    },
-   
-    resolve: {
-        extensions: ['.js', '', '.css'],
-        alias: {
-            
-         
-  
-          //  avalon: './src/avalon',
-          //  'vars': path.join(process.cwd(), './src/base/builtin')
-        }
-    }
+    ]
 }
