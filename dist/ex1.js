@@ -1,4 +1,4 @@
-/*! built in 2016-5-21:14 version 1.0 by 司徒正美 */
+/*! built in 2016-5-21:20 version 1.0 by 司徒正美 */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -60,9 +60,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	var vm = avalon.define({
 	    $id: 'test',
 	    name: 'accordion example',
-	    data: [{title: "1321", content: "1111"},
-	         {title: "1232", content: "2222"},
-	         {title: "23432", content: "3333"}]
+	    data: [{title: "aaa", content: "1111"},
+	         {title: "bbb", content: "2222"},
+	         {title: "ccc", content: "3333"}],
+	    getBg: function(){
+	      return '#'+Math.floor(Math.random()*16777215).toString(16);
+	    },
+	    updateData:function(){
+	         this.data = [
+	         {title: "面板1", content: "<div style='width:100%;height:100%' ms-css='{background:@getBg()}'>内容一<br><br></div>"},
+	         {title: "面板2", content: "<div style='width:100%;height:100%' ms-css='{background:@getBg()}'>内容二<br><br></div>"},
+	         {title: "面板3", content: "<div style='width:100%;height:100%' ms-css='{background:@getBg()}'>内容三<br><br></div>"},
+	         {title: "面板4", content: "<div style='width:100%;height:100%' ms-css='{background:@getBg()}'>内容四<br><br></div>"}]
+	    }
+	    
 	    
 	})
 	window.vm = vm
@@ -74,9 +85,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var avalon = __webpack_require__(2)
 	var template = __webpack_require__(3)
-	 __webpack_require__(4)
+	__webpack_require__(4)
 
-	 __webpack_require__(8)
+	__webpack_require__(8)
 
 	avalon.component('ms-accordion', {
 	    template: template,
@@ -84,9 +95,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var templateArr = template.split("MS_OPTION_MODE_CARET")
 	        var caretTemplate = templateArr[1]
 	        var navTemplate = templateArr[0]
-	        var horizontalHeaderStyle = 'ms-css-width="{width: @headerWidth,height:@headerAndContentHeight}"'
-	        var horizontalH2Style = 'ms-css="{bottom: -@headerWidth, width: @headerAndContentHeight,height:@headerWidth}"'
-	        var horizontalContentStyle = 'ms-css="{width: @contentWidth,height: @headerAndContentHeight}"'
+	        var horizontalHeaderStyle = ' ms-css="{width: @headerWidth,height:@headerAndContentHeight}"'
+	        var horizontalH2Style = ' ms-css="{bottom: -1 * @headerWidth, width: @headerAndContentHeight,height:@headerWidth}"'
+	        var horizontalContentStyle = ' ms-css="{width: @contentWidth, height: @headerAndContentHeight}"'
 	        var accordionTemp = ''
 
 	        navTemplate = vm.isVertical ?
@@ -96,6 +107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                replace(/MS_OPTION_HORIZONTAL_CONTENT_WIDTH_HEIGHT/g, horizontalContentStyle)
 	        if (vm.isVertical) {
 	            accordionTemp = vm.mode === "caret" ? caretTemplate : navTemplate
+	        } else {
 	            vm.mode = "nav"
 	            vm.multiple = false
 	            accordionTemp = navTemplate.replace("MS_OPTION_HORIZONTAL_TITLE", horizontalH2Style)
@@ -107,7 +119,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var elementClass = elementClass = 'oni-accordion oni-accordion-mode-'
 	                + vm.mode + " " + vm.accordionClass
 	        //处理根节点样式
-	        var str =  '<div class="' + elementClass + '" ms-css="{width:@width}">' + accordionTemp + '</div>'
+	        var str = '<div class="' + elementClass + '" ms-css="{width:@width}">' + accordionTemp + '</div>'
 	        return str.trim()
 	    },
 	    defaults: {
@@ -116,7 +128,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        headerWidth: 30, //@config 组件水平展开时，头部的宽
 	        contentWidth: 400, //@config 组件水平展开时内容的宽
 	        headerAndContentHeight: 200, //@config 组件水平展开时的高度
-	        autoRun: true, //@config 告知组件是否自动渲染，设为false时需要手动调用refresh方法进行组件的解析渲染
 	        //template: "", //@config 用户自定义template
 	        accordionClass: "", //@config 为accordion容器自定义的class
 	        currentTriggerClass: "oni-state-active", //@config 展开accordion面板时，header添加的class
@@ -124,22 +135,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @interface 配置accordion组件要展示的数据对象，格式为
 	         <pre class="brush:javascript;gutter:false;toolbar:false">
 	         [
-	         {title: String, content: String, toggle:true},
-	         {title: String, content: String, toggle:true},
-	         {title: String, content: String, toggle:true}
+	         {title: String, content: String},
+	         {title: String, content: String},
+	         {title: String, content: String}
 	         ]
 	         </pre> 
 	         */
 	        version: "1.0",
 	        data: [],
-	        initIndex: null, //@config 初始展开第几个面板
+	        currentIndex: -1, //@interface 组件最新展开的面板序号，不可配置
+	        $currentIndexs: {},
+	        isOpen: function (index) {
+	            var ret = this.multiple ? this.$currentIndexs[index]:
+	                    this.currentIndex === index
+	            return ret
+	        },
 	        mode: "caret", //@config 组件展开模式，取值说明："nav"=面板header无小三角图标，"caret"=展开面板有小三角图标，可以定义是点击图标展开面板还是点击header即展开，默认是点击header即展开，当然也可以通过getTemplate自定义模板
 	        multiple: false, //@config 是否可以同时打开多个面板
-	        widgetElement: "", //@interface 保存绑定组件元素的引用
-	        trigger: "oni-accordion-header", //@config 触发展开面板的dom节点对应class，比如mode为caret时想要只通过小图标展开隐藏panel时可以设置为"oni-accordion-trigger"
 	        triggerType: 'click', //@config 触发展开面板的事件类型，可以是：click|mouseenter
-	        currentIndex: -1, //@interface 组件最新展开的面板序号，不可配置
-	        direction: "vertical", //@config 组件的展开方向，默认为垂直展开，也可以水平展开("horizontal")
+
 	        /**
 	         * @config {Function} 组件面板展开前回调函数
 	         * @param index {Number} 面板序号
@@ -162,16 +176,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @param vmodels {Array} 组件的祖先vmodel组成的数组链
 	         */
 	        onInit: function (e) {
-	            var vmodel = e.vmodel
-	            vmodel.$watch("currentIndex", function (newVal, oldVal) {
-	                
-	            })
-
+	           var vm = e.vmodel
+	           vm.$currentIndexs = {}//防止所有多选弹出层共用一个数据
 	        }, //@config
-	        triggerCallback: function(e, index){
-	            this.currentIndex = index
+	        triggerCallback: function (event, index) {
+	            event.preIndex = this.currentIndex
+	            event.curIndex = index
+	            this.onBeforeSwitch(event)
+	            if (event.returnValue === false) {
+	                return
+	            }
+	            if (this.multiple) {
+	                this.$currentIndexs[index] = !this.$currentIndexs[index]
+	            } else {
+	                if(this.currentIndex === index){
+	                    this.currentIndex = -1
+	                }else{
+	                    this.currentIndex = index
+	                }
+	               
+	            }
+	            this.onSwitch.call(this, event)
 	        }
-	        
+
 	    }
 	})
 
@@ -8676,7 +8703,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 3 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"oni-accordion-inner\" \n     ms-class=\"[!@isVertical && 'oni-accordion-horizontal']\">\n    <!--ms-for:($index,item) in @data-->\n    <div class=\"oni-accordion-header oni-widget-header oni-state-default oni-accordion-trigger\"\n         ms-class=\"[$index === @currentIndex && (@currentTriggerClass + (@isVertical ? ' oni-corner-top' : '')), @isVertical && 'oni-corner-all' ]\"\n         MS_OPTION_HORIZONTAL_HEADER_WIDTH_HEIGHT\n         MS_OPTION_EVENT\n         ms-hover=\"'oni-state-hover'\">\n        <h2 ms-if=\"!@isVertical\" MS_OPTION_HORIZONTAL_TITLE>\n            {{item.title}} {{$index}} {{@currentIndex}}\n        </h2>\n        <span ms-if=\"@isVertical\">{{item.title}}</span>\n    </div>\n    <div class=\"oni-accordion-content oni-widget-content oni-state-default\" \n         ms-visible=\"$index === @currentIndex\"\n         ms-class=\"[@isVertical && 'oni-corner-bottom']\"\n         MS_OPTION_HORIZONTAL_CONTENT_WIDTH_HEIGHT>\n        <div MS_OPTION_HORIZONTAL_CONTENT_WIDTH_HEIGHT ms-html=\"item.content\">\n        </div>\n    </div>\n    <!--ms-for-end:-->\n</div>\nMS_OPTION_MODE_CARET\n<div class=\"oni-accordion-inner\" >\n    <!--ms-for:($index,item) in @data-->\n    <div class=\"oni-accordion-header oni-widget-header oni-state-default oni-corner-all\"\n         ms-class=\"[$index === @currentIndex && (@currentTriggerClass + ' oni-corner-top')]\"\n         ms-hover=\"oni-state-hover\">\n        <span class=\"oni-accordion-icon-wrap oni-accordion-trigger\" MS_OPTION_EVENT>\n            <i class=\"oni-icon oni-icon-caret-right\">&#xf040;</i>\n            <i class=\"oni-icon oni-icon-caret-down\">&#xf033;</i>\n        </span> \n        {{item.title}}\n    </div>\n    <div class=\"oni-accordion-content oni-state-default oni-widget-content oni-corner-bottom\" \n         ms-visible=\"$index === @currentIndex\" ms-html=\"item.content\">\n    </div>\n    <!--ms-for-end:-->\n</div>"
+	module.exports = "<div class=\"oni-accordion-inner\" \n     ms-class=\"[!@isVertical && 'oni-accordion-horizontal']\">\n    <!--ms-for:($index,item) in @data-->\n    <div class=\"oni-accordion-header oni-widget-header oni-state-default oni-accordion-trigger\"\n         ms-class=\"[@isOpen($index) && (@currentTriggerClass + (@isVertical ? ' oni-corner-top' : '')), @isVertical && 'oni-corner-all' ]\"\n         MS_OPTION_HORIZONTAL_HEADER_WIDTH_HEIGHT\n         ms-hover=\"'oni-state-hover'\" MS_OPTION_EVENT>\n        <h2 ms-if=\"!@isVertical\" MS_OPTION_HORIZONTAL_TITLE>\n            {{item.title}} {{$index}} {{@currentIndex}}\n        </h2>\n        <span ms-if=\"@isVertical\">{{item.title}}</span>\n    </div>\n    <div class=\"oni-accordion-content oni-widget-content oni-state-default\" \n         ms-visible=\"@isOpen($index)\"\n         ms-class=\"[@isVertical && 'oni-corner-bottom']\"\n         MS_OPTION_HORIZONTAL_CONTENT_WIDTH_HEIGHT>\n        <div MS_OPTION_HORIZONTAL_CONTENT_WIDTH_HEIGHT ms-html=\"item.content\">\n        </div>\n    </div>\n    <!--ms-for-end:-->\n</div>\nMS_OPTION_MODE_CARET\n<div class=\"oni-accordion-inner\" >\n    <!--ms-for:($index,item) in @data-->\n    <div class=\"oni-accordion-header oni-widget-header oni-state-default oni-corner-all\"\n         ms-class=\"[@isOpen($index) && (@currentTriggerClass + ' oni-corner-top')]\"\n         ms-hover=\"'oni-state-hover'\">\n        <span class=\"oni-accordion-icon-wrap oni-accordion-trigger\" MS_OPTION_EVENT>\n            <i class=\"oni-icon oni-icon-caret-right\">&#xf040;</i>\n            <i class=\"oni-icon oni-icon-caret-down\">&#xf033;</i>\n        </span> \n        {{item.title}}\n    </div>\n    <div class=\"oni-accordion-content oni-state-default oni-widget-content oni-corner-bottom\" \n         ms-visible=\"@isOpen($index)\" ms-html=\"item.content\">\n    </div>\n    <!--ms-for-end:-->\n</div>"
 
 /***/ },
 /* 4 */
