@@ -20,7 +20,7 @@
 | prop |default | type |description |
 |------|:---:|:--:|--------------|
 | isVertical | true | boolean  | the arrangement of the panels |
-| width |100%| number or percent | the width of the headerAndContentHeight       |
+| width |100%| number or percent | the width of the component       |
 | headerWidth  |30 | number| the width of the header when component are stretched horizontally  |
 | contentWidth |400| number| the width of the panel when component are stretched horizontally  |
 | headerAndContentHeight |200| number| the height of the headerAndContentHeight when component are stretched horizontally  |
