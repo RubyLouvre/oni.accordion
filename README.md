@@ -23,7 +23,7 @@
 | width |100%| number or percent | the width of the component       |
 | headerWidth  |30 | number| the width of the header when component are stretched horizontally  |
 | contentWidth |400| number| the width of the panel when component are stretched horizontally  |
-| headerAndContentHeight |200| number| the height of the headerAndContentHeight when component are stretched horizontally  |
+| headerAndContentHeight |200| number| the height of the component when component are stretched horizontally  |
 | accordionClass |""| string | the className of the component root element   |
 | currentTriggerClass |"oni-state-active"| string | the extra className of the header to highlight when component are stretched   |
 | data | []| `Array<Object>`| data source, that each item has title and content|
