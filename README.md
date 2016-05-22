@@ -2,8 +2,8 @@
 
 ###install
 
-```
-  npm install oni.accordion
+```javascript
+npm install oni.accordion
 ```
 
 ###how to use
@@ -12,6 +12,10 @@
 <ms-accordion ms-widget='{data: @data}'></ms-accordion>
 <ms-accordion ms-widget="{data: @data, mode: 'nav'}"></ms-accordion>
 <ms-accordion ms-widget="{data: @data, isVertical: false}"></ms-accordion>
+
+vm.data = [{title: "aaa", content: "1111"},
+           {title: "bbb", content: "2222"},
+           {title: "ccc", content: "3333"}]
 ```
 
 <img with='606' height='280' src="https://raw.githubusercontent.com/RubyLouvre/oni.accordion/master/appearance.png"/>
